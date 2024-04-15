@@ -1,25 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
+import Counter from './components/Counter';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Counter />
     </div>
   );
 }
+//given a number and counts down until zero
+//you enter a number, then it displays a countdown
+//when it hits zero, it finishes and prompts you to enter a new number
 
 export default App;
