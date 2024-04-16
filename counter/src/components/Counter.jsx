@@ -16,6 +16,10 @@ const Counter = () => {
     return () => clearInterval(interval);
   }, [num]);
 
+  //set timeout, not using prompt
+  //if prompted, don't display countdown: num
+  //use tailwind to style a bit
+
   return (
     <div>
       <h1>Countdown: {num}</h1>
