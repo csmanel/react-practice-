@@ -1,4 +1,5 @@
 import { fetchPosts } from './placeholderFetch';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 const Home = () => {
@@ -29,8 +30,10 @@ const Home = () => {
       {posts.length > 0 &&
         posts.map((post) => {
           return (
-            <div>
-              <h1 key={post.id}>{post.title}</h1>
+            <div key={post.id}>
+              <Link to={`/posts/${post.id}`}>
+                <h1>{post.title}</h1>
+              </Link>
               <p>{post.body}</p>
             </div>
           );
