@@ -10,7 +10,6 @@ const Grid = ({ numRows, numCols }) => {
   const updateVal = (row, col) => {
     setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
-
       newGrid[row][col] = 1;
       return newGrid;
     });
