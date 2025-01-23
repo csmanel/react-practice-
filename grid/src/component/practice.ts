@@ -53,6 +53,24 @@ function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | nul
       l1 = l1 ? l1.next : null;
       l2 = l2 ? l2.next : null;
   }
-  
+
   return dummy.next;
+}
+
+function lengthOfLongestSubstring(s: string): number {
+  const charSet = new Set<string>();
+  let maxLength = 0;
+  let left = 0;
+
+  for (let right = 0; right < s.length; right++) {
+      while (charSet.has(s[right])) {
+          charSet.delete(s[left]);
+          left++;
+      }
+      
+      charSet.add(s[right]);
+      maxLength = Math.max(maxLength, right - left + 1);
+  }
+
+  return maxLength;
 }
