@@ -112,3 +112,29 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
 
   throw new Error("Input arrays are not sorted or invalid.");
 }
+
+function longestPalindrome(s: string): string {
+  const n = s.length;
+  if (n <= 1) return s;
+
+  let maxLen = 1;
+  let maxStr = s[0];
+  const dp: boolean[][] = Array.from({ length: n }, () => Array(n).fill(false));
+  for (let i = 0; i < n; i++) {
+      dp[i][i] = true;
+  }
+  for (let i = 1; i < n; i++) {
+      for (let j = 0; j < i; j++) {
+          if (s[j] === s[i] && (i - j <= 2 || dp[j + 1][i - 1])) {
+              dp[j][i] = true;
+
+              if (i - j + 1 > maxLen) {
+                  maxLen = i - j + 1;
+                  maxStr = s.substring(j, i + 1);
+              }
+          }
+      }
+  }
+
+  return maxStr;
+}
