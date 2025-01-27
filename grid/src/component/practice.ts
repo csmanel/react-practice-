@@ -183,3 +183,88 @@ const reverse = (x: number): number => {
 
   return isNegative ? -reversed : reversed;
 };
+
+import { computed } from 'vue'
+
+interface Drive {
+  model: string
+  serial?: string
+  guid?: string
+}
+
+interface Server {
+  hostid: string
+}
+
+export const useDriveNaming = (server: Server) => {
+  const driveIndexKey = (drive: Drive) => {
+    // Create a unique key for the drive within this server
+    const driveId = drive.serial || drive.guid
+    return `drive_index_${driveId}`
+  }
+
+  const getNextDriveIndex = (variables: Map<string, string>) => {
+    // Find the highest existing index for this server
+    let maxIndex = 0
+    variables.forEach((value, key) => {
+      if (key.startsWith(`${server.hostid}drive_index_`)) {
+        const index = parseInt(value)
+        if (!isNaN(index) && index > maxIndex) {
+          maxIndex = index
+        }
+      }
+    })
+    return maxIndex + 1
+  }
+
+  const getDriveIndex = (
+    drive: Drive,
+    getVariable: (id: string) => string | null,
+    setVariable: (params: { id: string, value: string | null }) => void
+  ) => {
+    const key = driveIndexKey(drive)
+    let index = getVariable(key)
+    
+    if (!index) {
+      // If no index exists, get the next available one
+      const nextIndex = getNextDriveIndex(variables.value)
+      setVariable({ id: key, value: nextIndex.toString() })
+      index = nextIndex.toString()
+    }
+    
+    return index
+  }
+
+  const createDriveTitle = (
+    drive: Drive,
+    getVariable: (id: string) => string | null,
+    setVariable: (params: { id: string, value: string | null }) => void
+  ) => {
+    return computed(() => {
+      const index = getDriveIndex(drive, getVariable, setVariable)
+      return `Disk ${index}`
+    })
+  }
+
+  return {
+    getDriveIndex,
+    createDriveTitle
+  }
+}
+
+const title = computed(() => {                                    // Creates a reactive computed property
+  const driveKey = `drive_${props.drive.serial || props.drive.guid}`  // Creates unique key for this drive using serial or guid
+  let number = getVariable(driveKey)                             // Checks if this drive already has a number assigned
+  
+  if (!number) {                                                 // If this drive doesn't have a number yet...
+    const counterKey = 'drive_counter'                           // Key for storing the overall drive count
+    const currentCount = getVariable(counterKey) || '0'          // Get current count (or '0' if none exists)
+    const newCount = (parseInt(currentCount) + 1).toString()     // Increment the count by 1
+    
+    setVariable({ id: counterKey, value: newCount })            // Save the new count for future drives
+    setVariable({ id: driveKey, value: newCount })              // Assign this number to our drive
+    number = newCount                                           // Use this new number for our title
+  }
+
+  return `Disk ${number}`                                       // Format the final disk name
+})
