@@ -162,3 +162,24 @@ const convert = (s: string, numRows: number): string => {
 
   return rows.join('');
 };
+
+const reverse = (x: number): number => {
+  const isNegative = x < 0;
+  x = Math.abs(x);
+
+  let reversed = 0;
+
+  while (x > 0) {
+      const digit = x % 10;
+      x = Math.floor(x / 10);
+
+      if (reversed > Math.floor((2 ** 31 - 1) / 10) || 
+         (reversed === Math.floor((2 ** 31 - 1) / 10) && digit > 7)) {
+          return 0;
+      }
+
+      reversed = reversed * 10 + digit;
+  }
+
+  return isNegative ? -reversed : reversed;
+};
