@@ -138,3 +138,27 @@ function longestPalindrome(s: string): string {
 
   return maxStr;
 }
+
+const convert = (s: string, numRows: number): string => {
+  if (numRows === 1 || numRows >= s.length) {
+      return s;
+  }
+
+  const rows: string[] = Array.from({ length: numRows }, () => '');
+  let idx = 0;
+  let direction = 1; 
+
+  for (const char of s) {
+      rows[idx] += char;
+
+      if (idx === 0) {
+          direction = 1;
+      } else if (idx === numRows - 1) {
+          direction = -1;
+      }
+
+      idx += direction;
+  }
+
+  return rows.join('');
+};
