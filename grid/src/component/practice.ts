@@ -404,3 +404,35 @@ function threeSum(nums: number[]): number[][] {
   return res;
 }
 
+class Solution {
+  threeSumClosest(nums: number[], target: number): number {
+      nums.sort((a, b) => a - b);
+      let n: number = nums.length;
+      let minDiff: number = Number.MAX_VALUE;
+      let ans: number = 0;
+
+      for (let i = 0; i < n - 2; i++) {
+          let low: number = i + 1,
+              high: number = n - 1;
+
+          while (low < high) {
+              let temp: number = nums[i] + nums[low] + nums[high];
+
+              if (Math.abs(target - temp) < minDiff) {
+                  ans = temp;
+                  minDiff = Math.abs(target - temp);
+              }
+
+              if (temp === target) {
+                  return target;
+              } else if (temp > target) {
+                  high--;
+              } else {
+                  low++;
+              }
+          }
+      }
+      return ans;
+  }
+}
+
