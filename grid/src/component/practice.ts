@@ -470,3 +470,39 @@ function letterCombinations(digits: string): string[] {
   return res;    
 }
 
+function fourSum(nums: number[], target: number): number[][] {
+  const res: number[][] = [];
+  nums.sort((a, b) => a - b); // Sort the array
+  const seen = new Set<string>(); // Set to track unique quadruplets
+
+  for (let i = 0; i < nums.length - 3; i++) {
+      for (let j = i + 1; j < nums.length - 2; j++) {
+          let li = j + 1;
+          let ri = nums.length - 1;
+
+          while (li < ri) {
+              const sum = nums[i] + nums[j] + nums[li] + nums[ri];
+
+              if (sum > target) {
+                  ri--;
+              } else if (sum < target) {
+                  li++;
+              } else {
+                  const quad = [nums[i], nums[j], nums[li], nums[ri]];
+                  const key = quad.join(","); // Unique key for the set
+
+                  if (!seen.has(key)) {
+                      seen.add(key);
+                      res.push(quad);
+                  }
+
+                  ri--;
+                  li++;
+              }
+          }
+      }
+  }
+
+  return res;
+}
+
