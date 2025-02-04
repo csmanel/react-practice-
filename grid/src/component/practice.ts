@@ -472,8 +472,8 @@ function letterCombinations(digits: string): string[] {
 
 function fourSum(nums: number[], target: number): number[][] {
   const res: number[][] = [];
-  nums.sort((a, b) => a - b); // Sort the array
-  const seen = new Set<string>(); // Set to track unique quadruplets
+  nums.sort((a, b) => a - b);
+  const seen = new Set<string>(); 
 
   for (let i = 0; i < nums.length - 3; i++) {
       for (let j = i + 1; j < nums.length - 2; j++) {
@@ -489,7 +489,7 @@ function fourSum(nums: number[], target: number): number[][] {
                   li++;
               } else {
                   const quad = [nums[i], nums[j], nums[li], nums[ri]];
-                  const key = quad.join(","); // Unique key for the set
+                  const key = quad.join(","); 
 
                   if (!seen.has(key)) {
                       seen.add(key);
@@ -506,3 +506,33 @@ function fourSum(nums: number[], target: number): number[][] {
   return res;
 }
 
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  
+  constructor(val?: number, next?: ListNode | null) {
+      this.val = val ?? 0;
+      this.next = next ?? null;
+  }
+}
+
+function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
+  let res = new ListNode(0, head); 
+  let dummy: ListNode | null = res;
+  let fast: ListNode | null = head;
+
+  for (let i = 0; i < n; i++) {
+      if (fast) fast = fast.next;
+  }
+
+  while (fast) {
+      fast = fast.next;
+      dummy = dummy!.next;
+  }
+
+  if (dummy && dummy.next) {
+      dummy.next = dummy.next.next;
+  }
+
+  return res.next; 
+}
