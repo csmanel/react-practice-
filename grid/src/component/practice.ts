@@ -536,3 +536,24 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
 
   return res.next; 
 }
+
+const isValid = (s: string): boolean => {
+  const stack: string[] = [];
+  const mapping: Record<string, string> = {
+      ')': '(',
+      '}': '{',
+      ']': '['
+  };
+
+  for (const c of s) {
+      if (Object.values(mapping).includes(c)) {
+          stack.push(c);
+      } else if (mapping.hasOwnProperty(c)) {
+          if (!stack.length || mapping[c] !== stack.pop()) {
+              return false;
+          }
+      }
+  }
+
+  return stack.length === 0;
+};
