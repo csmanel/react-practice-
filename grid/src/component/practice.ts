@@ -647,3 +647,33 @@ function swapPairs(head: ListNode | null): ListNode | null {
 
   return dummy.next;
 }
+
+class ListNode {
+  val: number;
+  next: ListNode | null;
+
+  constructor(val: number = 0, next: ListNode | null = null) {
+      this.val = val;
+      this.next = next;
+  }
+}
+
+const swapPairs = (head: ListNode | null): ListNode | null => {
+  let dummy = new ListNode(0, head);
+  let prev = dummy;
+  let cur = head;
+
+  while (cur && cur.next) {
+      let npn = cur.next.next;
+      let second = cur.next;
+
+      second.next = cur;
+      cur.next = npn;
+      prev.next = second;
+
+      prev = cur;
+      cur = npn;
+  }
+
+  return dummy.next;
+};
