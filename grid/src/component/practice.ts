@@ -627,3 +627,29 @@ class Solution {
       return this.mergeTwoLists(l1, l2);
   }
 }
+
+function swapPairs(head: ListNode | null): ListNode | null {
+  // Create a dummy node to handle edge cases
+  let dummy: ListNode = new ListNode(0, head);
+  let prev: ListNode | null = dummy;
+  let cur: ListNode | null = head;
+
+  while (cur && cur.next) {
+      // Store the next pair's start
+      let npn: ListNode | null = cur.next.next;
+      
+      // The second node in the current pair
+      let second: ListNode | null = cur.next;
+      
+      // Swap the pair
+      second.next = cur;
+      cur.next = npn;
+      prev.next = second;
+
+      // Move pointers for next iteration
+      prev = cur;
+      cur = npn;
+  }
+
+  return dummy.next;
+}
