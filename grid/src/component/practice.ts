@@ -587,3 +587,43 @@ const mergeTwoLists = (list1: ListNode | null, list2: ListNode | null): ListNode
   return dummy.next;
 };
 
+// Definition for singly-linked list
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  
+  constructor(val: number = 0, next: ListNode | null = null) {
+      this.val = val;
+      this.next = next;
+  }
+}
+
+class Solution {
+  mergeTwoLists(l1: ListNode | null, l2: ListNode | null): ListNode | null {
+      if (!l1) return l2;
+      if (!l2) return l1;
+      
+      if (l1.val < l2.val) {
+          l1.next = this.mergeTwoLists(l1.next, l2);
+          return l1;
+      } else {
+          l2.next = this.mergeTwoLists(l1, l2.next);
+          return l2;
+      }
+  }
+  
+  mergeKLists(lists: Array<ListNode | null>): ListNode | null {
+      if (lists.length === 0) return null;
+      return this.divideAndConquer(lists, 0, lists.length - 1);
+  }
+  
+  private divideAndConquer(lists: Array<ListNode | null>, left: number, right: number): ListNode | null {
+      if (left === right) return lists[left];
+      
+      const mid = left + Math.floor((right - left) / 2);
+      const l1 = this.divideAndConquer(lists, left, mid);
+      const l2 = this.divideAndConquer(lists, mid + 1, right);
+      
+      return this.mergeTwoLists(l1, l2);
+  }
+}
