@@ -677,3 +677,43 @@ const swapPairs = (head: ListNode | null): ListNode | null => {
 
   return dummy.next;
 };
+
+class ListNode {
+  val: number;
+  next: ListNode | null;
+
+  constructor(val: number = 0, next: ListNode | null = null) {
+      this.val = val;
+      this.next = next;
+  }
+}
+
+class Solution {
+  reverseKGroup(head: ListNode | null, k: number): ListNode | null {
+      if (head === null) return null;
+
+      let tail: ListNode | null = head;
+      for (let i = 0; i < k; i++) {
+          if (tail === null) return head;
+          tail = tail.next;
+      }
+
+      let newHead = this.reverse(head, tail);
+      head.next = this.reverseKGroup(tail, k);
+      return newHead;
+  }
+
+  private reverse(head: ListNode | null, tail: ListNode | null): ListNode | null {
+      let prev: ListNode | null = null;
+      let curr: ListNode | null = head;
+
+      while (curr !== tail) {
+          let next: ListNode | null = curr!.next;
+          curr!.next = prev;
+          prev = curr;
+          curr = next;
+      }
+
+      return prev;
+  }
+}
