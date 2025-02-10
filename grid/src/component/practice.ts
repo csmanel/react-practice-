@@ -719,7 +719,6 @@ class Solution {
 }
 
 // 27
-
 function removeDuplicates(nums: number[]): number {
   let j: number = 1;
   for (let i: number = 1; i < nums.length; i++) {
@@ -731,3 +730,14 @@ function removeDuplicates(nums: number[]): number {
   return j;
 }
 
+// 28 
+function removeElement(nums: number[], val: number): number {
+  let index: number = 0;
+  for (let i: number = 0; i < nums.length; i++) {
+      if (nums[i] !== val) {
+          nums[index] = nums[i];
+          index++;
+      }
+  }
+  return index;
+}
