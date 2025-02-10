@@ -717,3 +717,17 @@ class Solution {
       return prev;
   }
 }
+
+// 27
+
+function removeDuplicates(nums: number[]): number {
+  let j: number = 1;
+  for (let i: number = 1; i < nums.length; i++) {
+      if (nums[i] !== nums[i - 1]) {
+          nums[j] = nums[i];
+          j++;
+      }
+  }
+  return j;
+}
+
