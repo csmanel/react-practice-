@@ -769,3 +769,49 @@ function divide(dividend: number, divisor: number): number {
   
   return isPositive ? ans : -ans;
 }
+
+// 30
+
+class Solution {
+  private map: Map<string, number>;
+
+  findSubstring(s: string, words: string[]): number[] {
+      const result: number[] = [];
+      const length: number = words[0].length;
+
+      this.map = new Map();
+      for (const word of words) {
+          this.map.set(word, (this.map.get(word) || 0) + 1);
+      }
+
+      for (let offset = 0; offset < length; ++offset) {
+          let size = 0;
+          const seen: Map<string, number> = new Map();
+
+          for (let i = offset; i + length <= s.length; i += length) {
+              const sub = s.substring(i, i + length);
+
+              if (!this.map.has(sub)) {
+                  seen.clear();
+                  size = 0;
+                  continue;
+              }
+
+              seen.set(sub, (seen.get(sub) || 0) + 1);
+              size++;
+
+              while (seen.get(sub)! > this.map.get(sub)!) {
+                  const first = s.substring(i - (size - 1) * length, i - (size - 1) * length + length);
+                  seen.set(first, seen.get(first)! - 1);
+                  size--;
+              }
+
+              if (size === words.length) {
+                  result.push(i - (size - 1) * length);
+              }
+          }
+      }
+
+      return result;
+  }
+}
