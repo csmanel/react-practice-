@@ -741,3 +741,31 @@ function removeElement(nums: number[], val: number): number {
   }
   return index;
 }
+
+// 29 
+function divide(dividend: number, divisor: number): number {
+  if (dividend === divisor) {
+      return 1;
+  }
+  
+  const isPositive: boolean = (dividend < 0) === (divisor < 0);
+  
+  let a: number = Math.abs(dividend);
+  const b: number = Math.abs(divisor);
+  let ans: number = 0;
+  
+  while (a >= b) {
+      let q: number = 0;
+      while (a > (b << (q + 1))) {
+          q++;
+      }
+      ans += (1 << q);
+      a = a - (b << q);
+  }
+  
+  if (ans === (1 << 31) && isPositive) {
+      return Number.MAX_SAFE_INTEGER;
+  }
+  
+  return isPositive ? ans : -ans;
+}
